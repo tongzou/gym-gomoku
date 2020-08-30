@@ -59,7 +59,6 @@ def run():
     env = gym.make(id)
     env.player_color = 0 if black == True else 1
     env.opponent = opponent
-    env.seed()
     play(env)
     input("Press Enter to continue...")
 

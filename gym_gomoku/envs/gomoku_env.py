@@ -207,7 +207,7 @@ class GomokuEnv(gym.Env):
             raise error.Error(
                 "player_color must be 'black' or 'white', not {}".format(player_color))
 
-        self.opponent = opponent
+        self._opponent = opponent
 
         assert observation_type in ['numpy3c']
         self.observation_type = observation_type
@@ -225,10 +225,19 @@ class GomokuEnv(gym.Env):
         self.observation_space = spaces.Box(
             np.zeros(observation.shape), np.ones(observation.shape))
 
-        self.seed()
+        self._seed()
         self.prev_move = -1
 
-    def seed(self, seed=None):
+    @property
+    def opponent(self): 
+        return self._opponent 
+
+    @opponent.setter 
+    def opponent(self, o): 
+        self._opponent = o
+        self._seed()
+
+    def _seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
 
         # Update the random policy if needed
