@@ -64,10 +64,10 @@ def make_naive_policy(board_size, level=3, win_len=5):
             move = (board_size//2, board_size//2)
         elif opponent_policy.second_move:
             '''
-              If the AI must go second, it shouldn't think,
-              it should just go diagonal adjacent to the first
-              placed tile; diagonal into the larger area of the
-              board if one exists
+                If the AI must go second, it shouldn't think,
+                it should just go diagonal adjacent to the first
+                placed tile; diagonal into the larger area of the
+                board if one exists
             '''
             if coords[1] <= board_size//2:
                 dy = 1
@@ -396,9 +396,9 @@ class GomokuEnv(gym.Env):
         return [GomokuEnv.coordinate_to_action(board, [x, y]) for x, y in zip(free_x, free_y)]
 
     '''
-      pattern is a regular expression to test for and size is the length of the pattern. size is only used for searching
-      diagonal patterns.
-  '''
+        pattern is a regular expression to test for and size is the length of the pattern. size is only used for searching
+        diagonal patterns.
+    '''
     @staticmethod
     def search_board(player_board, pattern, size):
         search = GomokuEnv.search_horizontal(player_board, pattern)
