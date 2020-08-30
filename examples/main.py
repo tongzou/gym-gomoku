@@ -1,5 +1,5 @@
 import gym
-import envs
+import gym_gomoku
 import os
 
 
@@ -24,9 +24,6 @@ def run():
         except:
             print("Please enter a valid choice.")
 
-    black = input('Would you like to go first? (Y/n): ')
-    black = black != 'n'
-
     if game == 1:
         id  = 'TicTacToe-v0'
     elif game == 2:
@@ -37,6 +34,9 @@ def run():
         id = 'Gomoku19x19_5-v0'
     else:
         exit()
+
+    black = input('Would you like to go first? (Y/n): ')
+    black = black != 'n'
 
     cls()
     while True:
@@ -64,22 +64,22 @@ def run():
     input("Press Enter to continue...")
 
 def play(env):
-    state = env.reset()
+    observation = env.reset()
 
     while True:
         cls()
         env.render()
         try:
-            action = eval('(' + input('Please enter your move in the form x, y: ') + ')')
+            action = eval('(' + input('Please enter your move in the form row, column: ') + ')')
         except SyntaxError:
             continue
         except NameError:
             return
 
         action = [action[0] - 1, action[1] - 1]
-        action = env.coordinate_to_action(state, action)
+        action = env.coordinate_to_action(observation, action)
 
-        state, reward, done, _ = env.step(action)
+        observation, reward, done, _ = env.step(action)
         if done:
             cls()
             env.render()

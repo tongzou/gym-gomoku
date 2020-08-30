@@ -2,7 +2,7 @@ from gym.envs.registration import register
 
 register(
     id='TicTacToe-v0',
-    entry_point='envs.gomoku:GomokuEnv',
+    entry_point='gym_gomoku.envs:GomokuEnv',
     kwargs={
         'player_color': 'black',
         'opponent': 'random',
@@ -15,7 +15,7 @@ register(
 
 register(
     id='Gomoku9x9_5-v0',
-    entry_point='envs.gomoku:GomokuEnv',
+    entry_point='gym_gomoku.envs:GomokuEnv',
     kwargs={
         'player_color': 'black',
         'opponent': 'random',
@@ -28,7 +28,7 @@ register(
 
 register(
     id='Gomoku13x13_5-v0',
-    entry_point='envs.gomoku:GomokuEnv',
+    entry_point='gym_gomoku.envs:GomokuEnv',
     kwargs={
         'player_color': 'black',
         'opponent': 'random',
@@ -41,7 +41,7 @@ register(
 
 register(
     id='Gomoku19x19_5-v0',
-    entry_point='envs.gomoku:GomokuEnv',
+    entry_point='gym_gomoku.envs:GomokuEnv',
     kwargs={
         'player_color': 'black',
         'opponent': 'random',
