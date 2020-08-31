@@ -55,7 +55,7 @@ def make_naive_policy(board_size, level=3, win_len=5):
 
         # coords is the coordinate of the previous action.
         coords = GomokuEnv.action_to_coordinate(
-            curr_state, prev_action) if prev_action is not None else None
+            board_size, prev_action) if prev_action is not None else None
 
         if prev_state is None:
             '''
@@ -133,7 +133,7 @@ def make_naive_policy(board_size, level=3, win_len=5):
                 print(np.random.choice(possible_moves))
                 move = np.random.choice(possible_moves)
 
-        return GomokuEnv.coordinate_to_action(curr_state, move)
+        return GomokuEnv.coordinate_to_action(board_size, move)
 
     '''
         Search for winning move for the specified color
@@ -348,7 +348,7 @@ class GomokuEnv(gym.Env):
         for i in range(d):
             outfile.write(' ' * (3 if i < 9 else 2) + str(i + 1) + ' | ')
             for j in range(d):
-                a = GomokuEnv.coordinate_to_action(board, [i, j])
+                a = GomokuEnv.coordinate_to_action(self.board_size, [i, j])
                 if board[2, i, j] == 1:
                     outfile.write('. ')
                 elif board[0, i, j] == 1:
@@ -373,7 +373,7 @@ class GomokuEnv(gym.Env):
 
     @staticmethod
     def valid_move(board, action):
-        coords = GomokuEnv.action_to_coordinate(board, action)
+        coords = GomokuEnv.action_to_coordinate(board.shape[-1], action)
         if board[2, coords[0], coords[1]] == 1:
             return True
         else:
@@ -381,28 +381,28 @@ class GomokuEnv(gym.Env):
 
     @staticmethod
     def make_move(board, action, player):
-        coords = GomokuEnv.action_to_coordinate(board, action)
+        coords = GomokuEnv.action_to_coordinate(board.shape[-1], action)
         board[2, coords[0], coords[1]] = 0
         board[player, coords[0], coords[1]] = 1
 
     @staticmethod
     def revert_move(board, action, player):
-        coords = GomokuEnv.action_to_coordinate(board, action)
+        coords = GomokuEnv.action_to_coordinate(board.shape[-1], action)
         board[2, coords[0], coords[1]] = 1
         board[player, coords[0], coords[1]] = 0
 
     @staticmethod
-    def coordinate_to_action(board, coords):
-        return coords[0] * board.shape[-1] + coords[1]
+    def coordinate_to_action(board_size, coords):
+        return coords[0] * board_size + coords[1]
 
     @staticmethod
-    def action_to_coordinate(board, action):
-        return action // board.shape[-1], action % board.shape[-1]
+    def action_to_coordinate(board_size, action):
+        return action // board_size, action % board_size
 
     @staticmethod
     def get_possible_actions(board):
         free_x, free_y = np.where(board[2, :, :] == 1)
-        return [GomokuEnv.coordinate_to_action(board, [x, y]) for x, y in zip(free_x, free_y)]
+        return [GomokuEnv.coordinate_to_action(board.shape[-1], [x, y]) for x, y in zip(free_x, free_y)]
 
     '''
         pattern is a regular expression to test for and size is the length of the pattern. size is only used for searching
@@ -432,7 +432,7 @@ class GomokuEnv(gym.Env):
         if index is not None:
             index = index.start()
             index -= index // (d + 1)
-            index = GomokuEnv.action_to_coordinate(player_board, index)
+            index = GomokuEnv.action_to_coordinate(player_board.shape[-1], index)
         return index
 
     @staticmethod

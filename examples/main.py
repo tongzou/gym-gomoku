@@ -76,7 +76,7 @@ def play(env):
             return
 
         action = [action[0] - 1, action[1] - 1]
-        action = env.coordinate_to_action(observation, action)
+        action = env.coordinate_to_action(observation.shape[-1], action)
 
         observation, reward, done, _ = env.step(action)
         if done:
